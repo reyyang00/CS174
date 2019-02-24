@@ -78,43 +78,65 @@ function validate_string_and_roman_combinations(String $str)
         }
     }
 
-    //check for base substraction
+    //check for roman numberals
     for ($i = 0; $i < $strlen; $i++) {
 
         $current = roman_numberals_base_value(substr($strUp, $i, 1));
-
         if ($current < roman_numberals_base_value(substr($strUp, $i + 1, 1))) {
             $subtracLetterCheck = roman_numberals_subtraction_base(substr($strUp, $i, 2));
+            // validate sbtraction base
             if (!$subtracLetterCheck) {
                 $containsValidSubtracBase = false;
             }
+
+            //validate roman numberal
+            if ($subtracLetterCheck > roman_numberals_base_value(substr($strUp, $i - 1, 1))) {
+                $containsValidSubtracBase = false;
+            }
+
         }
     }
+
     return $isValidString && $containsValidSubtracBase;
 }
+$a = validate_string_and_roman_combinations("IXM");
+if ($a === true) {
+    echo "true\n";
+} else {
+    echo "false\n";
+}
+
 // will set isValidRomanNumberals to false if input is not "IV", "IX", "XL", "XC", "CD", "CM", but everything else for substraction
 
 function toDecimal(String $roman_numberals)
 {
+    $strUp = strtoupper($roman_numberals); //convert input string to upper case
+    $strlen = strlen($strUp);
     $check = validate_string_and_roman_combinations($roman_numberals);
     $result = 0;
+
+    echo "$strUp\n";
     if ($check === true) {
+        echo "here\n";
         for ($i = 0; $i < $strlen; $i++) {
             $current = roman_numberals_base_value(substr($strUp, $i, 1));
-
+            //echo "$i\n";
             if ($current < roman_numberals_base_value(substr($strUp, $i + 1, 1))) {
+                // echo "$i\n";
                 $result = $result + roman_numberals_base_value(substr($strUp, $i + 1, 1)) - $current;
                 $i++;
             } else {
+                // echo "$i\n";
                 $result = $result + $current;
             }
         }
-
     } else {
-        echo "Your input is not valid string or roman numberals\n";
+        echo "$strUp is not valid\n";
     }
 
     return $result;
 
 }
-toDecimal("MCixVI");
+// $a = toDecimal("MCVIx");
+
+// echo "$a\n";
