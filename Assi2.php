@@ -96,18 +96,17 @@ function validate_string_and_roman_combinations(String $str)
 
 function toDecimal(String $roman_numberals)
 {
-    $check = validate_string_and_roman_combinations("MCixVI");
+    $check = validate_string_and_roman_combinations($roman_numberals);
     $result = 0;
     if ($check === true) {
         for ($i = 0; $i < $strlen; $i++) {
-
             $current = roman_numberals_base_value(substr($strUp, $i, 1));
 
             if ($current < roman_numberals_base_value(substr($strUp, $i + 1, 1))) {
-                $subtracLetterCheck = roman_numberals_subtraction_base(substr($strUp, $i, 2));
-                if (!$subtracLetterCheck) {
-                    $containsValidSubtracBase = false;
-                }
+                $result = $result + roman_numberals_base_value(substr($strUp, $i + 1, 1)) - $current;
+                $i++;
+            } else {
+                $result = $result + $current;
             }
         }
 
@@ -118,4 +117,4 @@ function toDecimal(String $roman_numberals)
     return $result;
 
 }
-toDecimal("");
+toDecimal("MCixVI");
