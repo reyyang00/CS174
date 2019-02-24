@@ -1,5 +1,9 @@
 <?php
+// functions roman_numberals_base_value(), roman_numberals_subtraction_base(), validate_string_and_roman_combinations() are acting like  constraints to check input
 
+// will return decimal numbers if input matches
+//"I", "V", "X", "L", "C", "D" "M",
+// everything else will be return false
 function roman_numberals_base_value($input)
 {
     $result;
@@ -31,9 +35,13 @@ function roman_numberals_base_value($input)
     }
     return $result;
 }
+
+// will return decimal numbers if input matches
+//"IV", "IX", "XL", "XC", "CD", "CM",
+// everything else will be return false
 function roman_numberals_subtraction_base($input)
 {
-    // will set isValidRomanNumberals to false if input is not "IV", "IX", "XL", "XC", "CD", "CM", but everything else for substraction
+
     $result;
     switch ($input) {
         case 'IV':
@@ -59,16 +67,17 @@ function roman_numberals_subtraction_base($input)
             break;
     }
     return $result;
-
 }
 
-//a function to check if the input string are all "I", "V", "X", "L", "C", "D", "M"
+//a function to validate
+// 1). the input string: "I", "V", "X", "L", "C", "D", "M"
+// 2). the input string are valid roman combinations
 function validate_string_and_roman_combinations(String $str)
 {
     $strUp = strtoupper($str); //convert input string to upper case
-    $strlen = strlen($strUp); //
-    $isValidString = true;
-    $containsValidSubtracBase = true;
+    $strlen = strlen($strUp); //length of input string
+    $isValidString = true; // check for validate string input
+    $containsValidSubtracBase = true; //check for roman numberals
 
     // will set isValidString to false if inout is not "I", "V", "X", "L", "C", "D", "M", but everything else
     for ($i = 0; $i < $strlen; $i++) {
@@ -78,9 +87,8 @@ function validate_string_and_roman_combinations(String $str)
         }
     }
 
-    //check for roman numberals
+    //validate for roman numberals
     for ($i = 0; $i < $strlen; $i++) {
-
         $current = roman_numberals_base_value(substr($strUp, $i, 1));
         if ($current < roman_numberals_base_value(substr($strUp, $i + 1, 1))) {
             $subtracLetterCheck = roman_numberals_subtraction_base(substr($strUp, $i, 2));
@@ -99,15 +107,8 @@ function validate_string_and_roman_combinations(String $str)
 
     return $isValidString && $containsValidSubtracBase;
 }
-$a = validate_string_and_roman_combinations("IXM");
-if ($a === true) {
-    echo "true\n";
-} else {
-    echo "false\n";
-}
 
-// will set isValidRomanNumberals to false if input is not "IV", "IX", "XL", "XC", "CD", "CM", but everything else for substraction
-
+//a function to convert valid roman numbrals or return error message if input is not valid
 function toDecimal(String $roman_numberals)
 {
     $strUp = strtoupper($roman_numberals); //convert input string to upper case
@@ -115,9 +116,8 @@ function toDecimal(String $roman_numberals)
     $check = validate_string_and_roman_combinations($roman_numberals);
     $result = 0;
 
-    echo "$strUp\n";
     if ($check === true) {
-        echo "here\n";
+
         for ($i = 0; $i < $strlen; $i++) {
             $current = roman_numberals_base_value(substr($strUp, $i, 1));
             //echo "$i\n";
@@ -131,12 +131,58 @@ function toDecimal(String $roman_numberals)
             }
         }
     } else {
-        echo "$strUp is not valid\n";
+        echo "$strUp is not valid input\n";
     }
 
     return $result;
 
 }
-// $a = toDecimal("MCVIx");
+function toDecimalTester($actualOutput, $expectedOutput)
+{
+    if ($actualOutput === $expectedOutput) {
+        echo "Test pass\n";
+    } else {
+        echo ("Your actual output does not match expect output, test faild\n");
+    }
+}
 
-// echo "$a\n";
+
+echo "input= mcx, actualOutput = 1110, expectedOutput = 1110\n";
+toDecimalTester(toDecimal("MCX"), 1110);
+echo "----------------------\n";
+
+echo "input= MXCX, actualOutput = 1100, expectedOutput = 1110\n";
+toDecimalTester(toDecimal("MXCX"), 1110);
+echo "----------------------\n";
+
+echo "input= MXCX, actualOutput = 1100, expectedOutput = 1100\n";
+toDecimalTester(toDecimal("MXCX"), 1100);
+echo "----------------------\n";
+
+echo "input= ABC, actualOutput = none, expectedOutput = none\n";
+toDecimalTester(toDecimal("ABC"),"");
+echo "----------------------\n";
+
+echo "input= 123, actualOutput = none, expectedOutput = none\n";
+toDecimalTester(toDecimal("123"),"");
+echo "----------------------\n";
+
+echo "input= .,/[], actualOutput = none, expectedOutput = none\n";
+toDecimalTester(toDecimal(".,/[]"),"");
+echo "----------------------\n";
+
+echo "input= C actualOutput = none, expectedOutput = none\n";
+toDecimalTester(toDecimal("C"),100);
+echo "----------------------\n";
+
+echo "input= C actualOutput = none, expectedOutput = none\n";
+toDecimalTester(toDecimal("CM"),"");
+echo "----------------------\n";
+
+echo "input= C actualOutput = none, expectedOutput = none\n";
+toDecimalTester(toDecimal("CM"),900);
+echo "----------------------\n";
+
+
+
+
