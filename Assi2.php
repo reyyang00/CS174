@@ -63,7 +63,7 @@ function roman_numberals_subtraction_base($input)
 }
 
 //a function to check if the input string are all "I", "V", "X", "L", "C", "D", "M"
-function validate_string(String $str)
+function validate_string_and_roman_combinations(String $str)
 {
     $strUp = strtoupper($str); //convert input string to upper case
     $strlen = strlen($strUp); //
@@ -90,33 +90,32 @@ function validate_string(String $str)
             }
         }
     }
-    return $isValidString&& $containsValidSubtracBase;
+    return $isValidString && $containsValidSubtracBase;
 }
-  // will set isValidRomanNumberals to false if input is not "IV", "IX", "XL", "XC", "CD", "CM", but everything else for substraction
-$check = validate_string("MCXV");
-if($check === true){
-    echo "true\n";
-}else{
-    echo "false\n";
-}
+// will set isValidRomanNumberals to false if input is not "IV", "IX", "XL", "XC", "CD", "CM", but everything else for substraction
 
-function toDecimal(String $roman_numberals): int
+function toDecimal(String $roman_numberals)
 {
-    //if it is not a valid input return function
-    // would accpet value to be anthing else then "I", "V", "X", "L", "C", "D", "M"
-    if (!validateString($roman_numberals)) {
-        return 0;
-    }
-
-    //if we got here, means we have roman numberals as input: "I", "V", "X", "L", "C", "D", "M"
-    // but we still do not know if it is a valid roman numberals
+    $check = validate_string_and_roman_combinations("MCixVI");
     $result = 0;
-    $leastLarger = roman_numberals_base_value();
+    if ($check === true) {
+        for ($i = 0; $i < $strlen; $i++) {
+
+            $current = roman_numberals_base_value(substr($strUp, $i, 1));
+
+            if ($current < roman_numberals_base_value(substr($strUp, $i + 1, 1))) {
+                $subtracLetterCheck = roman_numberals_subtraction_base(substr($strUp, $i, 2));
+                if (!$subtracLetterCheck) {
+                    $containsValidSubtracBase = false;
+                }
+            }
+        }
+
+    } else {
+        echo "Your input is not valid string or roman numberals\n";
+    }
 
     return $result;
 
 }
-function roman_to_decimal_tester()
-{
-
-}
+toDecimal("");
