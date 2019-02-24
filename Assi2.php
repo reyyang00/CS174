@@ -137,6 +137,8 @@ function toDecimal(String $roman_numberals)
     return $result;
 
 }
+
+//tester function
 function toDecimalTester($actualOutput, $expectedOutput)
 {
     if ($actualOutput === $expectedOutput) {
@@ -146,6 +148,14 @@ function toDecimalTester($actualOutput, $expectedOutput)
     }
 }
 
+
+echo "input= MDCLXVI, actualOutput = 1666, expectedOutput = 1110\n";
+toDecimalTester(toDecimal("MDCLXVI"), 1110);
+echo "----------------------\n";
+
+echo "input= MdClXVI, actualOutput = 1666, expectedOutput = 1666\n";
+toDecimalTester(toDecimal("MdClXVI"), 1666);
+echo "----------------------\n";
 
 echo "input= mcx, actualOutput = 1110, expectedOutput = 1110\n";
 toDecimalTester(toDecimal("MCX"), 1110);
@@ -171,17 +181,26 @@ echo "input= .,/[], actualOutput = none, expectedOutput = none\n";
 toDecimalTester(toDecimal(".,/[]"),"");
 echo "----------------------\n";
 
-echo "input= C actualOutput = none, expectedOutput = none\n";
+echo "input= C actualOutput = 100, expectedOutput = 100\n";
 toDecimalTester(toDecimal("C"),100);
 echo "----------------------\n";
 
-echo "input= C actualOutput = none, expectedOutput = none\n";
+echo "input= CM actualOutput = 900, expectedOutput = none\n";
 toDecimalTester(toDecimal("CM"),"");
 echo "----------------------\n";
 
-echo "input= C actualOutput = none, expectedOutput = none\n";
+echo "input= CM actualOutput = 900, expectedOutput = 900\n";
 toDecimalTester(toDecimal("CM"),900);
 echo "----------------------\n";
+
+echo "input= v actualOutput = 5, expectedOutput = 5\n";
+toDecimalTester(toDecimal("v"),5);
+echo "----------------------\n";
+echo "input= Iv actualOutput = 4, expectedOutput = 4\n";
+toDecimalTester(toDecimal("Iv"),4);
+echo "----------------------\n";
+
+
 
 
 
