@@ -93,7 +93,7 @@ function validate_string(String $str)
     return $isValidString&& $containsValidSubtracBase;
 }
   // will set isValidRomanNumberals to false if input is not "IV", "IX", "XL", "XC", "CD", "CM", but everything else for substraction
-$check = validate_string("XC");
+$check = validate_string("MCXV");
 if($check === true){
     echo "true\n";
 }else{
